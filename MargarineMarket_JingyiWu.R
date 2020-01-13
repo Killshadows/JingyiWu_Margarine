@@ -2,8 +2,9 @@
 demos = read.csv("~/Desktop/DUKE/COURSES/SPRING2019/ECON613/Assignments/3/demos.csv")
 product = read.csv("~/Desktop/DUKE/COURSES/SPRING2019/ECON613/Assignments/3/product.csv")
 
+
 #==============================================================================
-#Exercise 1 Data Description
+# Data Description
 #==============================================================================
 #Average and dispersion in product characteristics
 meanprice = as.data.frame(apply(as.matrix(product[,4:13]), 2, mean))
@@ -45,8 +46,9 @@ decompose = cbind(decompose[,1],prop.table(as.matrix(decompose[,2:11]),margin = 
 colnames(decompose) = c("Income","Pk_Stk","BB_Stk","Fl_Stk ","Hse_Stk","Gen_Stk","Imp_Stk","SS_Tub","Pk_Tub","Fl_Tub","Hse_Tub")
 print(decompose)
 
+
 #==============================================================================
-##Exercise 2 First Model
+# First Model
 #==============================================================================
 #use a conditional logit model
 dep = as.data.frame(product[,4:13]) #extract dependent variable
@@ -69,8 +71,9 @@ print(para1)
 #The coefficient on price is -6.6566340 (negative)
 #It means that if the price goes up, people are less likely to buy margarine
 
+
 #==============================================================================
-#Exercise 3 Second Model
+# Second Model
 #==============================================================================
 income = as.data.frame(rep(as.data.frame(map[,3]),each=10)) #replicate income column for 10 times
 mlogit = function(gamma){
@@ -93,8 +96,9 @@ print(para2)
 #The coefficient on income2 is 0.014507166 (positive)
 #It means that if the income goes up, people are more likely to buy product3 comparing to product1
 
+
 #==============================================================================
-#Exercise 4 Marginal Effects
+# Marginal Effects
 #==============================================================================
 #calculate marginal effects for model1 
 alpha1 = matrix(c(0,para1[2:10]),nrow=1) #substitute estimated para to get market share matrix p
@@ -157,8 +161,9 @@ colnames(ave_me_model2) = c("income")
 #The average marginal effect of income on demand of product1 is -0.0010504137
 #It means that if income increase by 1 unit, people will on average decrease their probability purchasing product1 by 0.0010504137
 
+
 #==============================================================================
-#Exercise 5 Marginal Effects
+# Marginal Effects
 #==============================================================================
 #Mixed Logit model
 mixlogit1 = function(delta){
@@ -201,13 +206,11 @@ rownames(para4) = c("price","income2","income3","income4","income5","income6","i
 Lr_f = -mixlogit2(para3[c(1:9,11:18),]) #calculate likelihood for unsubset model
 Lr_r = -mixlogit2(para4) #calculate likelihood for subset model
 MTT = -2*(Lr_f-Lr_r) #calculate MTT test statistics
+
 #Conclusion:
 #MTT = 0.00627
 #Critical Value of chi2(9) at 5% significance level = 16.92
 #MTT < CV
 #There is not a significant different, so IIA is not violated 
 #Probably because the choice I removed (choice 10) is of little marketshare - 0.74%, so removing it will not casue big influence on the market
-
-
-
 
